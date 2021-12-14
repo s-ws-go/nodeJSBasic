@@ -1,0 +1,39 @@
+// url : 인터넷 주소를 조작할 수 있도록 도와주는 모듈
+// WHAT~ 방식의 서치파람스 객체와 기존 노드방식의 쿼리스트링 모듈에 대해 알아보자
+
+const { URL } = require('url');
+
+const mymyURL = new URL('http://www.gilbut.co.kr/?page=3&limit=10&category=nodejs&category=javascript');
+console.log('searchParams:', mymyURL.searchParams);
+console.log('searchParams.getAll():', mymyURL.searchParams.getAll('category'));
+console.log('searchParams.get():', mymyURL.searchParams.get('limit'));
+console.log('searchParams.has():', mymyURL.searchParams.has('page'));
+
+console.log('searchParams.keys():', mymyURL.searchParams.keys());
+console.log('searchParams.values():', mymyURL.searchParams.values());
+
+mymyURL.searchParams.append('filter', 'es3');
+mymyURL.searchParams.append('filter', 'es5');
+console.log(mymyURL.searchParams.getAll('filter'));
+
+mymyURL.searchParams.set('filter', 'es6');
+console.log(mymyURL.searchParams.getAll('filter'));
+
+mymyURL.searchParams.delete('filter');
+console.log(mymyURL.searchParams.getAll('filter'));
+
+console.log('searchParams.toString():', mymyURL.searchParams.toString());
+mymyURL.search = mymyURL.searchParams.toString();
+
+console.log('----------------------------------------------------------');
+const url = require('url');
+const querystring = require('querystring');
+
+const parsedUrl = url.parse('http://www.gilbut.co.kr/?page=3&limit=10&category=nodejs&category=javascript');
+// 주소 기존노드 방식으로 파싱함
+console.log(parsedUrl);
+// 파싱 결과를 쿼리스트링 객체의 parse 메서드로 다시 파싱함 -- 더 세부적으로 찢어짐
+const query = querystring.parse(parsedUrl.query);
+console.log('querystring.parse():', query);
+// 다시 stringify 하면 쿼리문 결과 나오게 됨.
+console.log('querystring.stringify():', querystring.stringify(query));
